@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div uk-grid class = 'uk-width-2-3@m uk-width-1-1@s uk-grid-collapse'>
+        {% for i in hospitals %}
+            <div class = 'uk-container uk-width-1-1 uk-margin' style = 'border-bottom-style: solid'>
+               {% for j,k in i.items %} 
+               {% if j in i.details %}
+                   <div  style="background-color:#efeeed;border-style: solid;border-bottom-width: 0px;">
+                     <span class = 'uk-text-bolder uk-text-danger'>{{ j }}:</span>
+                     <span class = 'uk-text-bolder'>  {{ k }}</span>
+                  </div>
+                 {% endif %}
+                 {% if j in i.bedtype %}
+                 <div style="background-color:#efeeed;border-style: solid;border-bottom-width: 0px;">
+                   <h4 class = 'uk-width-1-1 uk-text-bold uk-text-success'>{{ j }}</h4>
+                   <div>
+                    {% for l,m in k.items %}
+                      <span>{{ l }} : {{ m }}</span>
+                    {% endfor %}
+                   </div>
+                 </div>
+                 {% endif %}
+                 {% endfor %}
+              </div>
+        {% endfor %}
+     </div>
+    {% endblock %}

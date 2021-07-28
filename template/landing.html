@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script>
+  function createlst(t,x){
+           inst = document.getElementById(t)
+           inst.textContent = x
+    }  
+
+   function vaccinesearch(){
+    pincode = $('#pininput').val()
+    feetype = $('#feetype').text()
+    vaccinetype = $('#vaccinetype').text()
+    availability = $('#availability').text()
+    url = '/vaccine/pincode/{0}/{1}/{2}/{3}'.replace('{0}',pincode).replace('{1}',feetype).replace('{2}',vaccinetype).replace('{3}',availability)
+    console.log(url)
+     $.ajax(
+      {
+        type:"GET",
+        url: url ,
+
+        success: function( response ) 
+        {
+            $('#vaccinedata').load(url)
+        }
+     });
+   }
+
+   function emailalert(){
+    pincode = $('#alertinput').val()
+    feetype = $('#alertfee').val()
+    vaccinetype = $('#alertvactype').val()
+    dose = $('#alertdose').val()
+    email = $('#alertemail').val()
+    url = '/emailalert/{0}/{4}/{1}/{2}/{3}'.replace('{0}',pincode).replace('{1}',feetype).replace('{2}',vaccinetype).replace('{3}',dose).replace('{4}', email)
+    console.log(url)
+     $.ajax(
+      {
+        type:"GET",
+        url: url ,
+
+        success: function( response ) 
+        {
+            status = JSON.parse(response["Status"])
+            $('#status').text(status)
+        }
+     });
+   }
+</script>
+<!-------------------------------------------------HEADLINE------------------------------------------------------------------->
+<div class="uk-container uk-width-1-1 uk-background-primary">
+	<center>
+        <h1 class = 'uk-text-bold' style = 'color:white'>COVID  UPDATE</h1>
+	</center>
+</div>
+<!----------------------------------------------States name ----------------------------------------------------------------->
+<div uk-grid class = 'uk-container uk-padding-large'>
+  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '/state/27'"> 
+     <div class = 'uk-text-center uk-width-2-3 uk-padding-small uk-align-center' style ='background-color: #00e600'>
+     	<h3 style="color:white;">Puducherry</h3>
+     </div>
+  </div>
+  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '/state/20'"> 
+     <div class = 'uk-text-center uk-width-2-3 uk-padding-small uk-align-center' style ='background-color: #00e600'>
+     	<h3 style="color:white;">Madhya Pradesh</h3>
+     </div>
+  </div>
+  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '/state/12'"> 
+     <div class = 'uk-text-center uk-width-2-3 uk-padding-small uk-align-center' style ='background-color: #00e600'>
+      <h3 style="color:white;">Haryana</h3>
+     </div>
+  </div>
+<div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '/state/5'"> 
+     <div class = 'uk-text-center uk-width-2-3 uk-padding-small uk-align-center' style ='background-color: #00e600'>
+      <h3 style="color:white;">Bihar</h3>
+     </div>
+  </div>
+  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '/state/29'"> 
+     <div class = 'uk-text-center uk-width-2-3 uk-padding-small uk-align-center' style ='background-color: #00e600'>
+      <h3 style="color:white;">Rajasthan</h3>
+     </div>
+  </div>
+  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '/state/36'"> 
+     <div class = 'uk-text-center uk-width-2-3 uk-padding-small uk-align-center' style ='background-color: #00e600'>
+      <h3 style="color:white;">Uttarakhand</h3>
+     </div>
+  </div>
+</div>
+<hr>
+<!-------------------------------------------Vaccine data-------------------------------------------------------------->
+
+<div>
+  <center>
+    <h2 class = 'uk-text-bolder'><u>Search Vaccine Centers</u></h2>
+    <hr>
+    <h2 class = 'uk-text-bolder'>Filter</h3>
+<div class = 'uk-margin-large-bottom'>  
+<div class = 'uk-margin-large-bottom'>
+<span id = 'feetype' style = 'border-style: solid' class="uk-margin-right uk-padding-small">All</span>
+<span id ='vaccinetype' style = 'border-style: solid' class="uk-margin-right uk-padding-small">All</span>
+<span id ='availability' style = 'border-style: solid' class="uk-margin-right uk-padding-small">All</span>
+</div>
+<hr>
+<div class= 'uk-margin-bottom'>
+  <h3>Search By Fee Type</h3>
+  <button class="uk-button uk-button-default" type="button" onclick = 'createlst("feetype","All")'>
+    All
+   </button>
+    <button class="uk-button uk-button-default" type="button" onclick = 'createlst("feetype","Free")'>
+    Free
+   </button>
+   <button class="uk-button uk-button-default" type="button" onclick = 'createlst("feetype","Paid")'>
+    Paid
+   </button>
+</div>
+<hr>
+<div class= 'uk-margin-bottom'>
+  <h3>Search By Vaccine</h3>
+  <button class="uk-button uk-button-default" type="button" onclick = 'createlst("vaccinetype","All")'>
+    All
+   </button>
+    <button class="uk-button uk-button-default" type="button" onclick = 'createlst("vaccinetype","COVAXIN")'>
+    COVAXIN
+   </button>
+   <button class="uk-button uk-button-default" type="button" onclick = 'createlst("vaccinetype","COVISHIELD")'>
+    COVISHIELD
+   </button>
+</div>
+<div class= 'uk-margin-bottom'>
+  <h3>Search By Availability</h3>
+  <button class="uk-button uk-button-default" type="button" onclick = 'createlst("availability","All")'>
+    All
+   </button>
+    <button class="uk-button uk-button-default" type="button" onclick = 'createlst("availability","DOSE1")'>
+    DOSE1
+   </button>
+   <button class="uk-button uk-button-default" type="button" onclick = 'createlst("availability","DOSE2")'>
+    DOSE2
+   </button>
+   <button class="uk-button uk-button-default" type="button" onclick = 'createlst("availability","Both")'>
+    Both
+   </button>
+</div>
+<!-------------------------------------------------------------------------------------------------------------------------->
+ <h3>Enter Pincode</h3>
+     <input  id = 'pininput' class="uk-input uk-width-1-3" type="text" placeholder="Enter Pincode">
+<button class = 'uk-button uk-button-primary' onclick = 'vaccinesearch()'>Search</button> 
+</center>
+<hr>
+</div>
+<div id = 'vaccinedata' class = 'uk-container uk-width-2-3@m uk-width-1-1@s uk-margin'>
+
+</div>
+<!----------------------------------------------------------------------------------------------------------------------------->
+<center>
+<hr>
+<h3>Email Alert</h3>
+<hr>
+<input  id = 'alertinput' class="uk-input uk-width-1-3" type="text" placeholder="Enter Pincode">
+<input  id = 'alertemail' class="uk-input uk-width-1-3" type="text" placeholder="Enter Email">
+<div class="uk-margin">
+            <label class="uk-form-label" for="form-stacked-text">Vaccine Fee</label>
+            <select id = 'alertfee' class="uk-select uk-width-1-3">
+                <option value = 'Free'>Free</option>
+                <option value = 'Paid'>Paid</option>
+                <option value = 'All'>All</option>
+            </select>
+        </div>
+<div class="uk-margin">
+            <label  class="uk-form-label" for="form-stacked-text">Vaccine type</label>
+            <select id = 'alertvactype' class="uk-select uk-width-1-3">
+                <option value = 'COVAXIN'>COVAXIN</option>
+                <option value = 'COVISHIELD'>COVISHIELD</option>
+                <option value = 'All'>All</option>
+            </select>
+        </div>
+<div class="uk-margin">
+            <label class="uk-form-label" for="form-stacked-text">Dose Type</label>
+            <select id = 'alertdose' class="uk-select uk-width-1-3">
+                <option value = 'DOSE1'>DOSE1</option>
+                <option value = 'DOSE2'>DOSE2</option>
+                <option value = 'Both'>Both</option>
+            </select>
+        </div>
+<div id = 'status'></div>
+<button class = 'uk-button uk-button-primary' onclick = 'emailalert()'>Search</button> 
+</center>
+<hr>
+
+{% endblock %}

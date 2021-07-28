@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-------------------------------------------------------------------------------------------------------------->
+<center>
+{% if centers %}
+{% for i in centers %}
+    <div class = 'uk-container uk-margin-bottom' style="border-bottom-style: solid;">
+    	<div  style="background-color:#efeeed;border-style: solid;border-bottom-width: 0px;">
+        <span class = 'uk-text-bolder uk-text-danger'>Name:</span>
+        <span class = 'uk-text-bolder'>{{ i.name }}</span>
+        </div>
+        <div  style="background-color:#efeeed;border-style: solid;border-bottom-width: 0px;">
+        <span class = 'uk-text-bolder uk-text-danger'>Address:</span>
+        <span class = 'uk-text-bolder'>{{ i.address }}</span>
+        </div>
+        <div  style="background-color:#efeeed;border-style: solid;border-bottom-width: 0px;">
+        <span class = 'uk-text-bolder uk-text-danger'>Fee:</span>
+        <span class = 'uk-text-bolder'>{{ i.fee_type }}</span>
+        </div>
+        <div  style="background-color:#efeeed;border-style: solid;border-bottom-width: 0px;">
+        <span class = 'uk-text-bolder uk-text-danger'>Date:</span>
+        <span class = 'uk-text-bolder'>{{ i.date }}</span>
+        </div>
+        <div  style="background-color:#efeeed;border-style: solid;border-bottom-width: 0px;">
+        <span class = 'uk-text-bolder uk-text-danger'>DOSE 1:</span>
+        <span class = 'uk-text-bolder'>{{ i.available_capacity_dose1 }}</span>
+        </div>
+        <div  style="background-color:#efeeed;border-style: solid;border-bottom-width: 0px;">
+        <span class = 'uk-text-bolder uk-text-danger'>DOSE 2:</span>
+        <span class = 'uk-text-bolder'>{{ i.available_capacity_dose2 }}</span>
+        </div>
+    </div>
+{% endfor %}
+{% else %}
+<h2 class = 'uk-text-bolder uk-text-danger'>Sorry no Centers Available</h2>
+{% endif %}
+</center>
+{% endblock %}

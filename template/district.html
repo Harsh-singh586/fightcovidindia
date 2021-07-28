@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script type="text/javascript">
+    function createlst(t,x){
+           inst = document.getElementById(t)
+           inst.textContent = x
+    }  
+	function updatehospital(){
+		x = document.getElementById('bedtype').textContent
+		y = document.getElementById('hostype').textContent
+		distance = document.getElementById('distance').textContent
+		l = document.getElementById('longitude').textContent
+		lat = document.getElementById('lat').textContent
+        url =  "/hospital/{{ state }}/{{ district }}/{0}/{1}/{2}/{3}/{4}".replace('{0}', x).replace('{1}', y).replace('{2}', lat).replace('{3}', l).replace('{4}', distance)
+        update_url = "/hospital/{{ state }}/{{ district }}/{0}/{1}/{2}/{3}/{4}".replace('{0}', x).replace('{1}', y).replace('{2}', lat).replace('{3}', l).replace('{4}', distance)
+        console.log(url) 
+        $.ajax(
+    {
+        type:"GET",
+        url: url ,
+
+        success: function( response ) 
+        {
+            $('#hospital').load(update_url)
+        }
+     });
+
+    }
+
+    function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        alert("Geolocation is not supported by this browser.")
+    }
+}
+
+function showPosition(position) {
+ lat = position.coords.latitude
+ lon = position.coords.longitude
+	$('#lat').text(lat)
+	$('#longitude').text(lon)
+	$('.dis').removeAttr('disabled')
+}  
+
+</script>
+<!-------------------------------------------------------------------------------------------------------------------->
+<div class="uk-container uk-width-1-1 uk-background-primary uk-margin-large-bottom">
+	<center>
+        <h1 class = 'uk-text-bold' style = 'color:white'>{{ dis_name }}</h1>
+	</center>
+</div>
+<!-------------------------------------------------------------------------------------------------------------------->
+<!---------------------------------------------------COVID  DATA------------------------------------------------------>
+<center>
+	<h2 class = 'uk-text-bolder' style="color:red"><u>COVID CASES</u></h2>
+	<div uk-grid class = 'uk-container uk-width-2-3@m uk-width-expand@s uk-margin-large uk-width-1-1'>
+		<div class = 'uk-width-1-4@m uk-width-1-2' style="border-style: solid; background-color: red">
+		    <span class = 'uk-text-bolder uk-text-left@s uk-text-secondary'>Confirmed : </span><br>
+		    <span class = 'uk-text-bolder uk-text-left@s uk-text-secondary'>{{ covid_data.confirmed }}</span>
+		 </div>
+		<div class = 'uk-width-1-4@m uk-width-1-2' style="border-style: solid; background-color: #2123cf;color:white">
+		   <span class = 'uk-text-bolder'>Active :</span><br>
+		   <span class = 'uk-text-bolder'>{{ covid_data.active }}</span>
+	    </div>
+		<div class = 'uk-width-1-4@m uk-width-1-2' style="border-style: solid; background-color: #c3c3c9;">
+			<span class = 'uk-text-bolder uk-text-danger'>Death :</span><br>
+		   <span class = 'uk-text-bolder uk-text-danger'>{{ covid_data.deceased }}</span>
+		</div>
+		<div class = 'uk-width-1-4@m uk-width-1-2' style="border-style: solid; background-color: #2de020;">
+			<span class = 'uk-text-bolder uk-text-secondary'>Recovered :</span><br>
+		   <span class = 'uk-text-bolder uk-text-secondary'>{{ covid_data.recovered }}</span>
+		</div>
+	</div>
+</center>
+<!-------------------------------------------------------------------------------------------------------------------->
+<center>
+    <div class = 'uk-background-primary uk-width-2-3@m uk-width-1-1' style = 'color:white'>
+    	<h2 class = 'uk-text-bolder' style = 'color:white'>Hospital Data</h2>
+    </div>
+    <span>Source : <a class = 'uk-text-break' href="{{ link }}">{{ link }}</a></span><br>
+    <span>Please Verify on your Own</span>
+<!-------------------------------------------- Filter  -------------------------------------------------------->
+<hr>
+<h2 class = 'uk-text-bolder'>Filter</h3>
+<div class = 'uk-margin-large-bottom'>	
+<div class = 'uk-margin-large-bottom'>
+<span id = 'bedtype' style = 'border-style: solid' class="uk-margin-right uk-padding-small">All</span>
+<span id ='hostype' style = 'border-style: solid' class="uk-margin-right uk-padding-small">All</span>
+{% if location_exist %}
+<span id ='distance' style = 'border-style: solid' class="uk-margin-right uk-padding-small">0</span>
+{% endif %}
+</div>
+<hr>
+<h4 class = 'uk-text-bold'>Bed Type  -- Filters Available Bed</h4>
+<div class= 'uk-margin-bottom'>
+	<button class="uk-button uk-button-default" type="button" onclick = 'createlst("bedtype","All")'>
+    All
+   </button>
+	{% for b in bedtype %}
+    <button class="uk-button uk-button-default" type="button" onclick = 'createlst("bedtype","{{ b }}")'>
+    {{ b }}
+   </button>
+	{% endfor %}
+</div>
+<hr>
+<h4 class = 'uk-text-bold'>Hospital Type</h4>
+<div class= 'uk-margin-bottom'>
+	<button class="uk-button uk-button-default" type="button" onclick = 'createlst("hostype","All")'>
+    All
+   </button>
+	{% for h in hostype %}
+    <button class="uk-button uk-button-default" type="button" onclick = 'createlst("hostype","{{ h }}")'>{{ h }}</button>
+	{% endfor %}
+</div>
+<hr>
+{% if location_exist %}
+<button class="uk-button uk-button-primary" type="button" onclick = 'getLocation()'>Allow Location</button>
+<button disabled class="uk-button uk-button-default dis" type="button" onclick = 'createlst("distance","1")'>1 Km</button>
+<button disabled class="uk-button uk-button-default dis" type="button" onclick = 'createlst("distance","5")'>5 Km</button>
+<button disabled class="uk-button uk-button-default dis" type="button" onclick = 'createlst("distance","10")'>10 Km</button>
+<button disabled class="uk-button uk-button-default dis" type="button" onclick = 'createlst("distance","20")'>20 Km</button>
+<button disabled class="uk-button uk-button-default dis" type="button" onclick = 'createlst("distance","50")'>50 Km</button>
+<button disabled class="uk-button uk-button-default dis" type="button" onclick = 'createlst("distance","100")'>100 Km</button>
+<span hidden id = 'lat' style = 'border-style: solid' class="uk-margin-right uk-padding-small">0</span>
+<span hidden id = 'longitude' style = 'border-style: solid' class="uk-margin-right uk-padding-small">0</span>
+<hr>
+{% endif %}
+<button class="uk-button uk-button-primary" onclick="updatehospital()">Filter</button>
+<hr>
+</div>
+</center>
+<!------------------------------------------------------------------------------------------------------------->
+<div class="uk-container uk-width-1-1 uk-margin">
+	<center>
+		<div id = 'hospital'>
+	   <div uk-grid class = 'uk-width-2-3@m uk-width-1-1@s uk-grid-collapse'>
+	   	  {% for i in hospitals %}
+	   	      <div class = 'uk-container uk-width-1-1 uk-margin' style = 'border-bottom-style: solid'>
+	   	         {% for j,k in i.items %} 
+	   	         {% if j in i.details %}
+                   <div  style="background-color:#efeeed;border-style: solid;border-bottom-width: 0px;">
+                     <span class = 'uk-text-bolder uk-text-danger'>{{ j }}:</span>
+                     <span class = 'uk-text-bolder'>  {{ k }}</span>
+                  </div>
+                 {% endif %}
+                 {% if j in i.bedtype %}
+                 <div style="background-color:#efeeed;border-style: solid;border-bottom-width: 0px;">
+                   <h4 class = 'uk-width-1-1 uk-text-bold uk-text-success'>{{ j }}</h4>
+                   <div>
+                   	{% for l,m in k.items %}
+                      <span>{{ l }} : {{ m }}</span>
+                    {% endfor %}
+                   </div>
+                 </div>
+                 {% endif %}
+                 {% endfor %}
+              </div>
+	   	  {% endfor %}
+	   </div>
+	</div>
+	</center>
+</div>
+{% endblock %}

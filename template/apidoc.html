@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<center>
+<h1>API Documentation</h1>
+</center>
+<hr>
+<center>
+<div class = 'uk-width-1-1@s uk-width-2-3@m uk-width-expand@s uk-background-muted uk-margin-bottom'>
+	<h2 class = 'uk-text-bolder'>State API</h2>
+	<h4>Return Different State details --- <br>State Name, State Code, Source from where hospital data is taken</h4>
+	<div class = 'uk-text-break uk-background-primary' style = 'color: white'>GET: /state</div>
+</div>
+</center>
+<center>
+<h3>Base URL </h3>
+<h3 class = 'uk-background-primary uk-width-2-3@m uk-text-break' style="color: white">https://fightcovidindia.herokuapp.com/api</h3>
+<div class = 'uk-width-1-1@s uk-width-2-3@m uk-background-muted uk-margin-bottom'>
+	<center>
+	<h2 class = 'uk-text-bolder'>District API</h2>
+	<h4>Return Different district details --- <br>Districte Name, District Code</h4>
+	<h4 class = 'uk-background-primary' style = 'color: white'>GET : /state/statecode</h4>
+	<h5>Example</h5>
+	<h4 class = 'uk-background-primary' style = 'color: white'>GET : /state/27</h4>
+	<h5>Output</h5>
+	</center>
+	<div>
+       <pre>[
+  {
+      'statecode': '27', 
+      'districtcode': '525', 
+      'districtname': 'KARAIKAL'
+  }, 
+  {
+      'statecode': '27',
+      'districtcode': '526',
+      'districtname': 'MAHE'
+  },
+  {
+      'statecode': '27',
+      'districtcode': '527',
+      'districtname': 'PUDUCHERRY'},
+  {
+      'statecode': '27',
+      'districtcode': '528',
+      'districtname': 'YANAM'
+  }
+           ]
+       </pre>
+       <h5>Returns a list of district data including District Name, District Code</h5>
+	</div>
+</div>
+</center>
+<div class = 'uk-container uk-width-1-1@s uk-width-2-3@m uk-background-muted uk-margin-bottom'>
+	<center>
+	<h2 class = 'uk-text-bolder'>Details API</h2>
+	<h4>Return Different What Details and What Bedtype are Available about hospitals of a state</h4>
+	<h4>For Example For State of Bihar Bedtypes are Total and ICU and For Uttarakhand General, Oxygen, ICU and Ventilator are Available</h4>
+	<h4 class = 'uk-background-primary' style = 'color: white'>GET : /details/statecode</h4>
+	<h5>Example</h5>
+	<h4 class = 'uk-background-primary' style = 'color: white'>GET : /details/5</h4>
+	</center>
+	<h5>Output</h5>
+	<div>
+       <pre>{
+'bedtype': 
+   ['Total', 'ICU'],
+'details': 
+   [
+      'name',
+      'updatetime', 
+      'Contact', 
+      'type', 
+      'category'
+    ]
+        }
+       </pre>
+       <h5>Returns a type of bed and details available about Hospital of a state</h5>
+	</div>
+</div>
+<div class = 'uk-container uk-width-1-1@s uk-width-2-3@m uk-background-muted uk-margin-bottom'>
+	<center><h2 class = 'uk-text-bolder'>Hospital API</h2></center>
+	<h4>Return all Hospitals within a District</h4>
+	<h4 class = 'uk-background-primary' style = 'color: white'>GET : hospitals/statecode/districtcode</h4>
+	<h5>Example</h5>
+	<h4 class = 'uk-background-primary' style = 'color: white'>GET : hospitals/27/528</h4>
+	<h5>Output</h5>
+	<div class = ''>
+       <pre>[
+{
+    'state': 'pudducherry',
+    'district': 'Yanam', 
+    'name': 'Yanam', 
+    'type': 'govt', 
+    'updatetime': '04-07-2021 15:26:17', 
+    'Isolation': 
+       	 {
+       	   'Alloted': 90, 
+       	   'Vacant': 74
+       	 }, 
+    'Oxygen': 
+       	 {
+       	    'Alloted': 40, 
+       	    'Vacant': 31
+       	 }, 
+    'Ventilator': 
+       	 {
+       	     'Alloted': 11, 
+       	      'Vacant': 11
+       	 },
+    'district_code': '528'
+}
+       	]</pre>
+       <h5>Returns List of data available in a district</h5>
+	</div>
+</div>
+<div class = 'uk-container uk-width-1-1@s uk-width-2-3@m uk-background-muted uk-margin-bottom'>
+	<center>
+	<h2 class = 'uk-text-bolder'>Near Hospital API</h2>
+	<h4>Return Hospital within provided Distance from provided Location (lat, lon)</h4>
+	<span class = 'uk-background-primary uk-text-break' style = 'color: white'>GET : /nearhospitals/statecode/lat/lon/distance</span>
+	<h5>Example</h5>
+	<span class = 'uk-background-primary' style = 'color: white'>GET : /nearhospitals/5/24.88726/85.54591/1</span>
+	</center>
+	<h5>Output</h5>
+	<div>
+       <pre>[
+{
+	'state': 'Bihar',
+	'district': 'Nawada', 
+	'name': 'DH Nawada', 
+	'updatetime': 'Jun 27 2021 11:49AM', 
+	'type': 'DH', 
+	'category': 'DCHC', 
+	'Total': 
+	     {
+	     	'Capacity': 60,
+	     	 'Vacant': 60
+	     }, 
+	'ICU': 
+	     {
+	     	'Capacity': 0, 
+	     	'Vacant': 0
+	     }, 
+	'Contact': '9431417332', 
+	'location': 
+	    {
+	    	'type': 'Point', 
+	        'coordinates': [85.54591, 24.88726]
+	    },
+	 'district_code': '103'
+}
+]
+       </pre>
+       <h5>Above Example returns all Hospitals within 1 km of given location [24.88726, 85.54591]</h5>
+	</div>
+</div>
+<div class = 'uk-container uk-width-1-1@s uk-width-2-3@m uk-background-muted uk-margin-bottom'>
+	<center>
+	<h2 class = 'uk-text-bolder'>Filter hospital by available Bed Type</h2>
+	<h4>Return Hospital within district with available Bed</h4>
+	<span class = 'uk-background-primary uk-text-break' style = 'color: white'>/availablebedtype/statecode/districtcode/bedtype</span>
+	<h5>Example</h5>
+	<span>First Get Available bed type of a State by using Details Api</span><br>
+	<span class = 'uk-background-primary' style = 'color: white'>GET : /details/27</span>
+	<h5>Output</h5>
+	</center>
+	<pre>{
+'details': 
+   [
+      'name',
+      'type', 
+      'updatetime'
+   ],
+'bedtype':
+   [
+      'Isolation', 
+      'Oxygen', 
+      'Ventilator'
+   ]
+}
+	</pre>
+	<span>Then filter bed with one of the bedtype</span><br>
+	<span class = 'uk-background-primary' style = 'color: white'>GET : /availablebedtype/27/528/Oxygen</span>
+	<h5>Output</h5>
+	<div>
+       <pre>[{
+    'state': 'pudducherry',
+    'district': 'Yanam', 
+    'name': 'Yanam', 
+    'type': 'govt', 
+    'updatetime': '04-07-2021 15:26:17', 
+    'Isolation': 
+       	 {
+       	   'Alloted': 90, 
+       	   'Vacant': 74
+       	 }, 
+    'Oxygen': 
+       	 {
+       	    'Alloted': 40, 
+       	    'Vacant': 31
+       	 }, 
+    'Ventilator': 
+       	 {
+       	     'Alloted': 11, 
+       	      'Vacant': 11
+       	 },
+    'district_code': '528'
+}
+]
+       </pre>
+       <h5>Returns Hospital with available bed </h5>
+	</div>
+</div>
+{% endblock %}
