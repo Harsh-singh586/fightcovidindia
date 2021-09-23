@@ -122,24 +122,6 @@ def vaccine_search(request, pincode, feetype, vaccinetype, availability):
 			    lst.append(i)
 	return render(request, 'vaccine_search.html', {'centers' : lst})
 
-def email_alert(request, pincode, email, feetype, vaccinetype, availability):
-	db = client['emailalert']
-	emaildata = db['emaildata']
-	emailverify = db['emailverify']
-	emaildata.insert_one({'email' : email , 'verified':'False','pincode' : pincode,'feetype' : feetype , 'vaccinetype' : vaccinetype, 'Dose' : availability})
-	key = secrets.token_urlsafe(15)
-	emailverify.insert_one({'email': email, 'key' : key})
-	message = Mail(
-        from_email='codersintense@gmail.com',
-        to_emails= email,
-        subject= 'Verify Your mail',
-        html_content = '<h1>Click here to Verify your mail</h1><a href = https://fightcovidindia.herokuapp.com/emailverify/{}>Click Here</a>'.format(key))
-	sg = SendGridAPIClient(os.environ['SENDGRID_API'])
-	response = sg.send(message)
-	code = response.status_code
-	print(pincode, feetype, availability)
-	status = json.dumps('Verify Your Email, look for Email by codersintense@gmail.com')
-	return JsonResponse({'Status': status}, status=200)
 
 def verify_email(request, key):
 	db = client['emailalert']
