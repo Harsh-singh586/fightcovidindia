@@ -130,6 +130,3 @@ def uttarakhand():
 			print(hospitaldata.update_one({'district' : k[0], 'name' : k[1]},{'$set' : {'General.Capacity' : int(k[5]), 'General.Vacant' : int(k[6]),'Oxygen.Capacity' : int(k[7]), 'Oxygen.Vacant' : int(k[8]), 'ICU.Capacity' : int(k[9]), 'ICU.Vacant' : int(k[10]), 'Ventilator.Capacity' : int(k[11]), 'Ventilator.Vacant' : int(k[12]), 'updatetime' : k[13]}}))
 		except:
 			continue
-hospitaldata = db['36']
-
-uttarakhand()
