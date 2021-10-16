@@ -7,9 +7,103 @@
       <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.8/dist/js/uikit.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.8/dist/js/uikit-icons.min.js"></script>
       <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+      <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+
+   <script type="text/javascript">
+   var app = angular.module('myapp', ['ngRoute']);
+    app.controller('disfilter', function($scope){
+      $scope.disnames = x
+      
+   })
+app.config(function($routeProvider) {
+  $routeProvider
+  .when("/", {
+    templateUrl : 'https://fightcovidindia.herokuapp.com/home'
+  })
+  .when("/state/:key", {
+    templateUrl : function(key){
+             return 'https://fightcovidindia.herokuapp.com/state/' + key.key
+    }
+  })
+  .when("/state/:skey/:dkey", {
+    templateUrl : function(key){
+             return 'https://fightcovidindia.herokuapp.com/state/' + key.skey + '/' + key.dkey
+}  })
+  .when("/api", {
+    templateUrl : 'https://fightcovidindia.herokuapp.com/api' 
+
+      });
+});
+
+app.config(function($interpolateProvider) {
+    $interpolateProvider.startSymbol('[[');
+    $interpolateProvider.endSymbol(']]');
+  });
+
+
+
+   </script>
      </head>
-     <body>
+     <body ng-app="myapp">
+      <!--------------nav bar ---------------->
+      <div class="uk-margin-large">
+    <nav class="uk-navbar-container" uk-navbar>
+        <div class="uk-navbar-left  uk-hidden@s">
+            <a class="uk-navbar-toggle"  uk-toggle="target: #offcanvas-nav-primary">
+                <span uk-navbar-toggle-icon></span><span class="uk-margin-small-left">Menu</span>
+            </a>
+        </div>
+        <div class="uk-align-center uk-align-center@m">
+            <h1><strong>COVID 19 RESOURCE</strong></h1>
+        </div>
+            
+        <div id="offcanvas-nav-primary" uk-offcanvas="overlay: true" class = 'uk-hidden@m'>
+            <div class="uk-offcanvas-bar uk-flex uk-flex-column">
+            <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
+            <li>
+                <div>
+                <span class = 'uk-margin-right' uk-icon="icon:facebook;ratio:1.5;"></span>
+                <span class = 'uk-margin-right' uk-icon="icon:youtube;ratio:1.5;"></span>
+                <span class = 'uk-margin-right' uk-icon="icon:linkedin;ratio:1.5;"></span>
+                <span  uk-icon="icon:instagram;ratio:1.5;"></span>
+                </div>
+            </li>
+            <hr>
+            <li><a class = 'uk-align-left' href="/"><span class="uk-margin-small-right" uk-icon="icon: home"></span>HOME</a></li>
+            <li><a class = 'uk-align-left' href="#vaccinecont"><span class="uk-margin-small-right" uk-icon="icon: user"></span>VACCINE</a></li>
+            <li><a class = 'uk-align-left' href="#alertcont"><span class="uk-margin-small-right" uk-icon="icon: sign-in"></span>EMAIL ALERT</a></li>
+            <li><a class = 'uk-align-left' href="#!api"><span class="uk-margin-small-right" uk-icon="icon: sign-in"></span>API</a></li>
+
+            </ul>
+
+    </div>
+</div>
+        </nav>
+    <!---------------------- navbar end ---------------------->
+    <!------------------second navbar ----------------------->
+    <nav class="uk-background-primary uk-visible@m" uk-navbar>
+
+    <div class="uk-navbar-left">
+
+        <ul class="uk-navbar-nav">
+            <li class="uk-active"><a href="/"><strong style = 'color:white'>HOME</strong></a></li>
+            <li style = 'border-right-style: solid;border-right-color:white'></li>
+            <li class="uk-active"><a href="#vaccinecont"><strong style = 'color:white'>VACCINE</strong></a></li>
+            <li style = 'border-right-style: solid;border-right-color:white'></li>
+            <li class="uk-active"><a href="#alertcont"><strong style = 'color:white'>EMAIL ALERT</strong></a></li>
+            <li style = 'border-right-style: solid;border-right-color:white'></li>
+            <li class="uk-active"><a href="#!api"><strong style = 'color:white'>API</strong></a></li>
+
+        </ul>
+    </div>
+    </nav>
+ </div>
+    <!--------------------navbar end ---------------->
+    <!----------------------------------------------->
+    <ng-view></ng-view>
      {% block content %}
-     {% endblock %}	
+     {% endblock %}  
      </body>
      </html>
