@@ -1,6 +1,4 @@
-{% extends 'base.html' %}
 
-{% block content %}
 <script>
   function createlst(t,x){
            inst = document.getElementById(t)
@@ -47,40 +45,35 @@
      });
    }
 </script>
-<!-------------------------------------------------HEADLINE------------------------------------------------------------------->
-<div class="uk-container uk-width-1-1 uk-background-primary">
-	<center>
-        <h1 class = 'uk-text-bold' style = 'color:white'>COVID  UPDATE</h1>
-	</center>
-</div>
+
 <!----------------------------------------------States name ----------------------------------------------------------------->
-<div uk-grid class = 'uk-container uk-padding-large'>
-  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '/state/27'"> 
+<div uk-grid class = 'uk-container uk-padding-large uk-background-muted'>
+  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '#!state/27'"> 
      <div class = 'uk-text-center uk-width-2-3 uk-padding-small uk-align-center' style ='background-color: #00e600'>
-     	<h3 style="color:white;">Puducherry</h3>
+        <h3 style="color:white;">Puducherry</h3>
      </div>
   </div>
-  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '/state/20'"> 
+  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '#!state/20'"> 
      <div class = 'uk-text-center uk-width-2-3 uk-padding-small uk-align-center' style ='background-color: #00e600'>
-     	<h3 style="color:white;">Madhya Pradesh</h3>
+        <h3 style="color:white;">Madhya Pradesh</h3>
      </div>
   </div>
-  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '/state/12'"> 
+  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '#!state/12'"> 
      <div class = 'uk-text-center uk-width-2-3 uk-padding-small uk-align-center' style ='background-color: #00e600'>
       <h3 style="color:white;">Haryana</h3>
      </div>
   </div>
-<div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '/state/5'"> 
+<div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '#!state/5'"> 
      <div class = 'uk-text-center uk-width-2-3 uk-padding-small uk-align-center' style ='background-color: #00e600'>
       <h3 style="color:white;">Bihar</h3>
      </div>
   </div>
-  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '/state/29'"> 
+  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '#!state/29'"> 
      <div class = 'uk-text-center uk-width-2-3 uk-padding-small uk-align-center' style ='background-color: #00e600'>
       <h3 style="color:white;">Rajasthan</h3>
      </div>
   </div>
-  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '/state/36'"> 
+  <div class = 'uk-container uk-width-1-3@m uk-padding-small' onclick= "location.href = '#!state/36'"> 
      <div class = 'uk-text-center uk-width-2-3 uk-padding-small uk-align-center' style ='background-color: #00e600'>
       <h3 style="color:white;">Uttarakhand</h3>
      </div>
@@ -89,11 +82,11 @@
 <hr>
 <!-------------------------------------------Vaccine data-------------------------------------------------------------->
 
-<div>
+<div id = 'vaccinecont' class="uk-background-muted uk-align-center uk-width-2-3@m">
   <center>
-    <h2 class = 'uk-text-bolder'><u>Search Vaccine Centers</u></h2>
+    <h2 class = 'uk-text-bolder uk-text-primary'><u>Search Vaccine Centers</u></h2>
     <hr>
-    <h2 class = 'uk-text-bolder'>Filter</h3>
+    <h2 class = 'uk-text-bolder'>Filter</h2>
 <div class = 'uk-margin-large-bottom'>  
 <div class = 'uk-margin-large-bottom'>
 <span id = 'feetype' style = 'border-style: solid' class="uk-margin-right uk-padding-small">All</span>
@@ -142,7 +135,7 @@
    </button>
 </div>
 <!-------------------------------------------------------------------------------------------------------------------------->
- <h3>Enter Pincode</h3>
+ <h2>Enter Pincode</h2>
      <input  id = 'pininput' class="uk-input uk-width-1-3" type="text" placeholder="Enter Pincode">
 <button class = 'uk-button uk-button-primary' onclick = 'vaccinesearch()'>Search</button> 
 </center>
@@ -152,9 +145,10 @@
 
 </div>
 <!----------------------------------------------------------------------------------------------------------------------------->
+<div id = 'alertcont' class="uk-background-muted uk-background-blend-multiply uk-width-2-3@m uk-align-center">
 <center>
 <hr>
-<h3>Email Alert</h3>
+<h3 class = 'uk-text-bolder uk-text-primary'><u>Email Alert</u></h3>
 <hr>
 <input  id = 'alertinput' class="uk-input uk-width-1-3" type="text" placeholder="Enter Pincode">
 <input  id = 'alertemail' class="uk-input uk-width-1-3" type="text" placeholder="Enter Email">
@@ -183,8 +177,8 @@
             </select>
         </div>
 <div id = 'status'></div>
-<button class = 'uk-button uk-button-primary' onclick = 'emailalert()'>Search</button> 
+<button class = 'uk-button uk-button-primary' onclick = 'emailalert()'>Alert</button> 
 </center>
+</div>
 <hr>
 
-{% endblock %}

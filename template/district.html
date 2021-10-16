@@ -1,6 +1,4 @@
-{% extends 'base.html' %}
 
-{% block content %}
 <script type="text/javascript">
     function createlst(t,x){
            inst = document.getElementById(t)
@@ -46,7 +44,7 @@ function showPosition(position) {
 
 </script>
 <!-------------------------------------------------------------------------------------------------------------------->
-<div class="uk-container uk-width-1-1 uk-background-primary uk-margin-large-bottom">
+<div class="uk-container uk-margin-large uk-width-1-1 uk-background-primary uk-margin-large">
 	<center>
         <h1 class = 'uk-text-bold' style = 'color:white'>{{ dis_name }}</h1>
 	</center>
@@ -56,21 +54,29 @@ function showPosition(position) {
 <center>
 	<h2 class = 'uk-text-bolder' style="color:red"><u>COVID CASES</u></h2>
 	<div uk-grid class = 'uk-container uk-width-2-3@m uk-width-expand@s uk-margin-large uk-width-1-1'>
-		<div class = 'uk-width-1-4@m uk-width-1-2' style="border-style: solid; background-color: red">
+		<div class = 'uk-width-1-4@m uk-background-muted uk-padding-small uk-width-1-2'>
+			<div >
 		    <span class = 'uk-text-bolder uk-text-left@s uk-text-secondary'>Confirmed : </span><br>
 		    <span class = 'uk-text-bolder uk-text-left@s uk-text-secondary'>{{ covid_data.confirmed }}</span>
+		</div>
 		 </div>
-		<div class = 'uk-width-1-4@m uk-width-1-2' style="border-style: solid; background-color: #2123cf;color:white">
-		   <span class = 'uk-text-bolder'>Active :</span><br>
-		   <span class = 'uk-text-bolder'>{{ covid_data.active }}</span>
+		<div class = 'uk-width-1-4@m uk-background-muted uk-width-1-2 uk-padding-small'>
+			<div>
+		   <span class = 'uk-text-bolder uk-text-primary'>Active :</span><br>
+		   <span class = 'uk-text-bolder uk-text-primary'>{{ covid_data.active }}</span>
+		</div>
 	    </div>
-		<div class = 'uk-width-1-4@m uk-width-1-2' style="border-style: solid; background-color: #c3c3c9;">
+		<div class = 'uk-width-1-4@m uk-width-1-2 uk-background-muted uk-padding-small'>
+			<div>
 			<span class = 'uk-text-bolder uk-text-danger'>Death :</span><br>
 		   <span class = 'uk-text-bolder uk-text-danger'>{{ covid_data.deceased }}</span>
 		</div>
-		<div class = 'uk-width-1-4@m uk-width-1-2' style="border-style: solid; background-color: #2de020;">
-			<span class = 'uk-text-bolder uk-text-secondary'>Recovered :</span><br>
-		   <span class = 'uk-text-bolder uk-text-secondary'>{{ covid_data.recovered }}</span>
+		</div>
+		<div class = 'uk-width-1-4@m uk-background-muted uk-width-1-2 uk-padding-small'>
+			<div>
+			<span class = 'uk-text-bolder uk-text-success'>Recovered :</span><br>
+		   <span class = 'uk-text-bolder uk-text-success'>{{ covid_data.recovered }}</span>
+		</div>
 		</div>
 	</div>
 </center>
@@ -83,13 +89,16 @@ function showPosition(position) {
     <span>Please Verify on your Own</span>
 <!-------------------------------------------- Filter  -------------------------------------------------------->
 <hr>
-<h2 class = 'uk-text-bolder'>Filter</h3>
+<div class="uk-width-2-3@m uk-background-muted">
+<h2 class = 'uk-text-bolder'>Filter</h2>
 <div class = 'uk-margin-large-bottom'>	
 <div class = 'uk-margin-large-bottom'>
 <span id = 'bedtype' style = 'border-style: solid' class="uk-margin-right uk-padding-small">All</span>
 <span id ='hostype' style = 'border-style: solid' class="uk-margin-right uk-padding-small">All</span>
 {% if location_exist %}
 <span id ='distance' style = 'border-style: solid' class="uk-margin-right uk-padding-small">0</span>
+{% else %}
+<span id ='distance' style = 'border-style: solid' class="uk-margin-right uk-padding-small uk-hidden">0</span>
 {% endif %}
 </div>
 <hr>
@@ -126,11 +135,24 @@ function showPosition(position) {
 <span hidden id = 'lat' style = 'border-style: solid' class="uk-margin-right uk-padding-small">0</span>
 <span hidden id = 'longitude' style = 'border-style: solid' class="uk-margin-right uk-padding-small">0</span>
 <hr>
+{% else %}
+<button class="uk-button uk-button-primary uk-hidden" type="button" onclick = 'getLocation()'>Allow Location</button>
+<button disabled class="uk-button uk-button-default uk-hidden dis" type="button" onclick = 'createlst("distance","1")'>1 Km</button>
+<button disabled class="uk-button uk-button-default uk-hidden dis" type="button" onclick = 'createlst("distance","5")'>5 Km</button>
+<button disabled class="uk-button uk-button-default uk-hidden dis" type="button" onclick = 'createlst("distance","10")'>10 Km</button>
+<button disabled class="uk-button uk-button-default uk-hidden dis" type="button" onclick = 'createlst("distance","20")'>20 Km</button>
+<button disabled class="uk-button uk-button-default uk-hidden dis" type="button" onclick = 'createlst("distance","50")'>50 Km</button>
+<button disabled class="uk-button uk-button-default uk-hidden dis" type="button" onclick = 'createlst("distance","100")'>100 Km</button>
+<span hidden id = 'lat' style = 'border-style: solid' class="uk-margin-right uk-padding-small">0</span>
+<span hidden id = 'longitude' style = 'border-style: solid' class="uk-margin-right uk-padding-small">0</span>
+<hr>
 {% endif %}
 <button class="uk-button uk-button-primary" onclick="updatehospital()">Filter</button>
 <hr>
 </div>
+</div>
 </center>
+
 <!------------------------------------------------------------------------------------------------------------->
 <div class="uk-container uk-width-1-1 uk-margin">
 	<center>
@@ -162,4 +184,3 @@ function showPosition(position) {
 	</div>
 	</center>
 </div>
-{% endblock %}
