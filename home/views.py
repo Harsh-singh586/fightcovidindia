@@ -15,19 +15,39 @@ import json
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from cowin import CoWinAPI
-from .tasks import func1, send_mail
 from django.http import JsonResponse
 import secrets
 import sendgrid
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import os
-client = pymongo.MongoClient(os.environ['MONGODB_CL'])
+client = pymongo.MongoClient("xyz")
+#client = pymongo.MongoClient(os.environ['MONGODB_CL'])
+import smtplib, ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+def send_mail(reciever, txt):
+	port = 465
+	smtp_server = 'smtp.gmail.com'
+	sender_email = 'xxxxxxxxx'
+	reciever_email = reciever
+	password = 'xxxxxxxxxx'
+	message = MIMEMultipart('msg')
+	html = txt
+	message.attach(MIMEText(html, 'html'))
+	con = ssl.create_default_context()
+	server = smtplib.SMTP_SSL(smtp_server, port, context = con)
+	#server.starttls()
+	server.login(sender_email, password)
+	server.sendmail(sender_email, reciever_email, message.as_string())
+
 def home(request):
+	return render(request, 'base.html')
+
+def landing(request):
 	return render(request, 'landing.html')
 
 def state(request, key):
-	send_mail.delay()
 	db = client['states']
 	districtdata = db['districtdata']
 	district = districtdata.find({'statecode' : key})
@@ -122,6 +142,19 @@ def vaccine_search(request, pincode, feetype, vaccinetype, availability):
 			    lst.append(i)
 	return render(request, 'vaccine_search.html', {'centers' : lst})
 
+def email_alert(request, pincode, email, feetype, vaccinetype, availability):
+	db = client['emailalert']
+	emaildata = db['emaildata']
+	emailverify = db['emailverify']
+	emaildata.insert_one({'email' : email , 'verified':'False','pincode' : pincode,'feetype' : feetype , 'vaccinetype' : vaccinetype, 'Dose' : availability})
+	key = secrets.token_urlsafe(15)
+	emailverify.insert_one({'email': email, 'key' : key})
+	html_content = '<h1>Click here to Verify your mail</h1><a href = https://fightcovidindia.herokuapp.com/emailverify/{}>Click Here</a>'.format(key)
+	#sendmail(email, htmlcontent)
+	requests.get(url)
+	print(pincode, feetype, availability)
+	status = json.dumps('Verify Your Email, look for Email by harshpyproject@outlook.com ')
+	return JsonResponse({'Status': status}, status=200)
 
 def verify_email(request, key):
 	db = client['emailalert']
